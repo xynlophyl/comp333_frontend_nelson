@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { NavItem } from "reactstrap";
 import {
   Button,
   Modal,
@@ -11,7 +12,7 @@ import {
   Label,
 } from "reactstrap";
 
-export default class CustomRatingModal extends Component {
+export default class CustomModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,42 +21,43 @@ export default class CustomRatingModal extends Component {
   }
 
   handleChange = (e) => {
-    let { name, value } = e.target;
-    const activeItem = { ...this.state.activeItem, [name]: value };
-  
+    let {name, value} = e.target;
+    const activeItem = {...this.state.activeItem, [name]: value};
+
     this.setState({ activeItem });
   };
 
   render() {
-    const { toggle, onSave } = this.props;
+    const {toggle, onSave} = this.props;
 
     return (
       <Modal isOpen={true} toggle={toggle}>
-        <ModalHeader toggle={toggle}>{this.state.activeItem.username}'s {this.state.activeItem.song} rating</ModalHeader>
+        <ModalHeader toggle = {toggle}> new rating</ModalHeader>
         <ModalBody>
-          <Form>
-            <FormGroup>
-              <Label for="song-rating">rating</Label>
-              <Input
-                type="text"
-                id="song-rating"
-                name="rating"
-                value={this.state.activeItem.rating}
-                onChange={this.handleChange}
-                placeholder="Enter rating"
-              />
-            </FormGroup>
+        RATING {this.state.activeItem.rating}
+        <Form>
+          <FormGroup>
+            <Label for="song-rating">rating</Label>
+            <Input
+              type="text"
+              id="song-rating"
+              name="rating"
+              value={this.state.activeItem.rating}
+              onChange={this.handleChange}
+              placeholder="enter new rating"
+            />
+          </FormGroup>
           </Form>
         </ModalBody>
         <ModalFooter>
           <Button
             color="success"
-            onClick={() => onSave(this.state.activeItem)}
+            onClick={() => onSave(this.state.activeItem, 'ratings')}
           >
             Save
           </Button>
         </ModalFooter>
       </Modal>
-    );
+    )
   }
 }

@@ -28,7 +28,7 @@ export default class CustomModal extends Component {
 
   render() {
     const { toggle, onSave } = this.props;
-
+    const old_item = this.state.activeItem.song_artist
     return (
       <Modal isOpen={true} toggle={toggle}>
         <ModalHeader toggle={toggle}>New Song</ModalHeader>
@@ -39,10 +39,10 @@ export default class CustomModal extends Component {
               <Input
                 type="text"
                 id="song-title"
-                name="title"
-                value={this.state.activeItem.title}
+                name="song"
+                value={this.state.activeItem.song}
                 onChange={this.handleChange}
-                placeholder="Enter Song Title"
+                placeholder="Enter song title"
               />
             </FormGroup>
             <FormGroup>
@@ -51,39 +51,41 @@ export default class CustomModal extends Component {
                 type="text"
                 id="song-artist"
                 name="artist"
-                value={this.state.activeItem.description}
+                value={this.state.activeItem.artist}
                 onChange={this.handleChange}
                 placeholder="Enter song artist"
               />
             </FormGroup>
             <FormGroup>
               <Label for="song-genre">genre</Label>
-              <Input
+              <select
+                id="song-genre"
+                name="genre"
+                onChange={this.handleChange}
+                value={this.state.activeItem.genre}
+              >
+                <option value=""> </option>
+                <option value="Pop">Pop</option>
+                <option value="Hip-Hop">Hip-Hop</option>
+                <option value="Rock">Rock</option>
+                <option value="Classic">Classic</option>
+                <option value="Country">Country</option>
+              </select>
+              {/* <Input
                 type="text"
                 id="song-genre"
                 name="genre"
-                value={this.state.activeItem.description}
+                value={this.state.activeItem.genre}
                 onChange={this.handleChange}
                 placeholder="Enter song genre"
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label for="song-rating">rating</Label>
-              <Input
-                type="text"
-                id="song-rating"
-                name="rating"
-                value={this.state.activeItem.description}
-                onChange={this.handleChange}
-                placeholder="Enter rating"
-              />
+              /> */}
             </FormGroup>
           </Form>
         </ModalBody>
         <ModalFooter>
           <Button
             color="success"
-            onClick={() => onSave(this.state.activeItem)}
+            onClick={() => onSave(this.state.activeItem,old_item)}
           >
             Save
           </Button>
