@@ -6,22 +6,39 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.http import Http404
 from .serializers import usersSerializer, songsSerializer, ratingsSerializer
-from .models import users, artists, ratings, songs
+from .models import user, rating, song
 
 
 # Create your views here.
 class usersView(viewsets.ModelViewSet):
     #create: create, read: , update: put, delete: delete 
     serializer_class = usersSerializer
-    queryset = users.objects.all()
+    queryset = user.objects.all()
+
+    def post(self, request, format=None):
+        serializer = usersSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data,status = status.HTTP_201_CREATED)
+
 
 class songsView(viewsets.ModelViewSet):
     serializer_class = songsSerializer
-    queryset = songs.objects.all() 
+    queryset = song.objects.all() 
+
+    def post(self, request, format=None):
+        serializer = songsSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data,status = status.HTTP_201_CREATED)
+        #add http error response if not valid
+    
+    # def update(self, request, pk, format=None):
+        
 
 class ratingsView(viewsets.ModelViewSet):
     serializer_class = ratingsSerializer
-    queryset = ratings.objects.all()
+    queryset = rating.objects.all()
 
     def get(self, request, format=None):
         ratings = ratings.objects.all()
@@ -46,7 +63,4 @@ class ratingsView(viewsets.ModelViewSet):
         rating = self.get_object(pk)
         rating.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-
 

@@ -1,30 +1,23 @@
 from rest_framework import serializers
-from .models import users, artists, ratings, songs 
+from .models import user, rating, song 
 
 # The serializer translates a Todo object into a format that
 # can be stored in our database. We use the Todo model.
 class usersSerializer(serializers.ModelSerializer):
   class Meta:
-    model = users
+    model = user
     # The id is automatically created as a primary key by our Django model
     # and we can included it here as well.
     fields = ('username', 'password')
 
-class artistsSerializer(serializers.ModelSerializer):
-  class Meta:
-    model = artists
-    fields = ('song', 'artist')
-
 class ratingsSerializer(serializers.ModelSerializer):
   class Meta:
-    model = ratings
-    fields = ('id','rating','song', 'username')
+    model = rating
+    fields = ('id','username', 'song_artist', 'song', 'artist','rating')
 
 class songsSerializer(serializers.ModelSerializer):
   class Meta:
-    model = songs
-    fields = ('song', 'genre')
-
-
+    model = song
+    fields = ('song_artist','song','artist', 'genre')
 
     
