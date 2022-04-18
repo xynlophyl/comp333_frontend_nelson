@@ -28,9 +28,8 @@ export default class CustomModal extends Component {
 
   render() {
     const { toggle, onSave } = this.props;
-    const old_item = this.state.activeItem.song_artist
     return (
-      <Modal isOpen={true} toggle={toggle}>
+      <Modal isOpen={true} toggle={toggle} animation={false}>
         <ModalHeader toggle={toggle}>New Song</ModalHeader>
         <ModalBody>
           <Form>
@@ -85,7 +84,7 @@ export default class CustomModal extends Component {
         <ModalFooter>
           <Button
             color="success"
-            onClick={() => onSave(this.state.activeItem,old_item)}
+            onClick={() => onSave(this.state.activeItem,'songs')}
           >
             Save
           </Button>

@@ -4,7 +4,7 @@ import RatingModal from "./components/ratingModal";
 
 import axios from "axios";
 
-class App extends Component {
+class Music extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -43,7 +43,7 @@ class App extends Component {
             .then((res) => this.setState({ratingsList: res.data}))
             .catch((err) => console.log(err))
         console.log('ratings', this.state.ratingsList)
-        console.log(this.state.songsList)
+        // console.log(this.state.songsList)
     };
     
     toggleSongModal = () => {
@@ -55,77 +55,43 @@ class App extends Component {
     };
 
     handleSubmit = (item, type) => {
-        if (!item.id) { //song does not exist
+        if (type == 'songs') {
             this.toggleSongModal();
-            item.song_artist = item.song + "_" + item.artist
-            // console.log("creating new item", item, type)
+        } else {
+            this.toggleRatingModal();
+            item.username = "test_user"
+        }
+        item.song_artist = item.song + '_'+item.artist
+        // create method 
+        if (!item.id) {
             axios
                 .post(`http://localhost:8000/api/${type}/`, item)
                 .then((res) => this.refreshList())
-                .catch((e) =>
-                    // console.log(e),
-                    this.setState({errorFlag: true, errorMessage: 'song already exists' })
-                    )
+                .catch((e) => this.setState({errorFlag:true, errorMessage: 'this song and artist combination already exists'}))
             return;
         }
-        // song or rating exists
-        // closing modal pop up
-        if (this.state.ratingModal) {
-            this.toggleRatingModal();
-        };
-
-        if (type == 'songs'){ 
-            var key  = item.song+ '_'+item.artist
-        } else { var key = item.id}
-        // console.log("song already exists", item, "with key:", key);
-        axios
-            .put(`http://localhost:8000/api/${type}/${key}/`, item)
+        // update method
+        axios 
+            .put(`http://localhost:8000/api/${type}/${item.id}/`, item)
             .then((res) => this.refreshList());
-        return;
-    };
 
-    handleSongSubmit = (item, old_item) => {
-        this.toggleSongModal()
-        if (old_item) {
-            // item.song_artist = item.song + "_" + item.artist
-            console.log("old", old_item, "updated", item)
-
-            // axios
-            //     .delete(`http://localhost:8000/api/songs/${old_item}/`)
-            //     .then((res) => console.log("item", res));
-            
-            axios
-                .put(`http://localhost:8000/api/songs/${old_item}/`, item)
-                .then((res) => this.refreshList());
-            return;
-        }
-        item.song_artist = item.song + "_" + item.artist
-        axios
-            .post(`http://localhost:8000/api/songs/`, item)
-            .then((res) => this.refreshList());
-        return;
     }
 
-    // handleRatingSubmit = (rating) => {
-    //     if (!rating.id) {
-    //         this.toggleRatingModal();
-    //         console.log("creating new song rating");
-    //     }
-    // }
-
     handleDelete = (item, type) => {
-        if (type == 'songs'){ 
-            var key  = item.song_artist
-        } else { var key = item.id}
         axios
-            .delete(`http://localhost:8000/api/${type}/${key}/`, item)
+            .delete(`http://localhost:8000/api/${type}/${item.id}/`, item)
             .then((res) => this.refreshList());
     };
+
+
 
     createSong = () => {
         // console.log("new song")
         const item = { song_artist: "", song: "", artist: "", genre: "" };
         this.setState({activeSong: item, songModal: !this.state.songModal})
+        if (this.state.ratingModal) {
+            this.setState({ratingModal: !this.state.ratingModal})
+        }
     };
 
     editSong = (item) => {
@@ -136,6 +102,9 @@ class App extends Component {
     editRating = (item) => {
         // console.log(item)
         this.setState({ activeRating: item, ratingModal: !this.state.ratingModal });
+        if (this.state.songModal) {
+            this.setState({songModal: !this.state.songModal})
+        }
     };
 
     renderSongs = () => {
@@ -195,7 +164,7 @@ class App extends Component {
                                 <SongModal
                                     activeItem = {this.state.activeSong}
                                     toggle = {this.toggleSongModal}
-                                    onSave = {this.handleSongSubmit}
+                                    onSave = {this.handleSubmit}
                                 />
                             ): null}
                             {this.state.ratingModal ? (
@@ -217,4 +186,4 @@ class App extends Component {
     }
 };
 
-export default App;
+export default Music;

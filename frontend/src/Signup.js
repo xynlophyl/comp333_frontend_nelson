@@ -35,7 +35,7 @@ class Login extends Component{
         return(
             <main>
                 <LoginModal
-                    activeItem = {this.state.activeInfo}
+                    activeItem = {this.state.activeSong}
                     onSave = {this.handleSubmit}
                 />
             </main>
