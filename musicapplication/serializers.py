@@ -10,6 +10,7 @@ class usersSerializer(serializers.ModelSerializer):
     # and we can included it here as well.
     fields = ('username', 'password')
 
+
 class ratingsSerializer(serializers.ModelSerializer):
   class Meta:
     model = rating
@@ -18,6 +19,7 @@ class ratingsSerializer(serializers.ModelSerializer):
 class songsSerializer(serializers.ModelSerializer):
   class Meta:
     model = song
-    fields = ('song_artist','song','artist', 'genre', 'rating_average')
+    # fields = ('song_artist','song','artist', 'genre')
+    fields = ('id','song_artist','song','artist', 'genre', 'rating_average')
 
     
