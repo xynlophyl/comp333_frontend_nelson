@@ -14,5 +14,5 @@ class ratingAdmin(admin.ModelAdmin):
 
 @admin.register(song)
 class songAdmin(admin.ModelAdmin):
-    list_display = ('song_artist','song','artist','genre')
-    search_fields = ('song','artist','genre')
+    list_display = ('song_artist','song','artist','genre', 'rating_average')
+    search_fields = ('song','artist','genre','rating_average')

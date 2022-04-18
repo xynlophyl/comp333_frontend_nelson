@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from django.http import Http404
-from .serializers import usersSerializer, songsSerializer, ratingsSerializer
+from .serializers import usersSerializer, ratingsSerializer, songsSerializer
 from .models import user, rating, song
 
 
@@ -49,6 +49,8 @@ class ratingsView(viewsets.ModelViewSet):
         serializer = ratingsSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+            song.get_rating_average(rating.objects.filter(song_artist=song.song_artist))
+
             return Response(serializer.data,status = status.HTTP_201_CREATED)
 
     def put(self,request, pk, format=None):
@@ -56,6 +58,7 @@ class ratingsView(viewsets.ModelViewSet):
         serializer = ratingsSerializer(rating, data=request.data)
         if serializer.is_valid():
             serializer.save()
+
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
