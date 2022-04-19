@@ -45,7 +45,7 @@ export default class CustomModal extends Component {
               />
             </FormGroup>
             <FormGroup>
-              <Label for="song-artist">artist</Label>
+              <Label for="song-artist">Artist</Label>
               <Input
                 type="text"
                 id="song-artist"
@@ -56,7 +56,7 @@ export default class CustomModal extends Component {
               />
             </FormGroup>
             <FormGroup>
-              <Label for="song-genre">genre</Label>
+              <Label for="song-genre">Genre</Label>
               <select
                 id="song-genre"
                 name="genre"
