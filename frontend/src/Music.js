@@ -1,17 +1,17 @@
 // STARTED FROM HERE
-import React, { Component} from "react";
+import React, { Component, useEffect, useState } from "react";
 import SongModal from "./components/songModal";
 import RatingModal from "./components/ratingModal";
-
 import axios from "axios";
 
+
 class Music extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
-            songsList:[],
-            ratingsList:[],
-            activeSong:{
+            songsList: [],
+            ratingsList: [],
+            activeSong: {
                 id: null,
                 song: '',
                 artist: '',
@@ -33,32 +33,32 @@ class Music extends Component {
     };
 
     refreshList = () => {
-        this.setState({errorMessage: null})
+        this.setState({ errorMessage: null })
         axios
             .get("http://localhost:8000/api/songs/")
-            .then((res) => this.setState({songsList: res.data}))
+            .then((res) => this.setState({ songsList: res.data }))
             .catch((err) => console.log(err))
         console.log('getting ratings')
         axios
             .get("http://localhost:8000/api/ratings/test_user/")
-            .then((res) => this.setState({ratingsList: res.data}))
+            .then((res) => this.setState({ ratingsList: res.data }))
             .catch((err) => console.log(err))
         console.log('ratings', this.state.ratingsList)
         // console.log(this.state.songsList)
     };
-    
+
     toggleSongModal = () => {
-        this.setState({songModal: !this.state.songModal});
+        this.setState({ songModal: !this.state.songModal });
     };
 
     toggleRatingModal = () => {
-        this.setState({ratingModal: !this.state.ratingModal});
+        this.setState({ ratingModal: !this.state.ratingModal });
     };
 
     handleSubmit = (item, type) => {
         if (type == 'songs') {
             this.toggleSongModal();
-            item.song_artist = item.song + '_'+item.artist
+            item.song_artist = item.song + '_' + item.artist
 
         } else {
             this.toggleRatingModal();
@@ -70,11 +70,11 @@ class Music extends Component {
             axios
                 .post(`http://localhost:8000/api/${type}/`, item)
                 .then((res) => this.refreshList())
-                .catch((e) => this.setState({errorFlag:true, errorMessage: 'this song and artist combination already exists'}))
+                .catch((e) => this.setState({ errorFlag: true, errorMessage: 'this song and artist combination already exists' }))
             return;
         }
         // update method
-        axios 
+        axios
             .put(`http://localhost:8000/api/${type}/${item.id}/`, item)
             .then((res) => this.refreshList());
 
@@ -91,9 +91,9 @@ class Music extends Component {
     createSong = () => {
         // console.log("new song")
         const item = { song_artist: "", song: "", artist: "", genre: "" };
-        this.setState({activeSong: item, songModal: !this.state.songModal})
+        this.setState({ activeSong: item, songModal: !this.state.songModal })
         if (this.state.ratingModal) {
-            this.setState({ratingModal: !this.state.ratingModal})
+            this.setState({ ratingModal: !this.state.ratingModal })
         }
     };
 
@@ -101,7 +101,7 @@ class Music extends Component {
         // console.log(item)
         this.setState({ activeSong: item, songModal: !this.state.songModal });
         if (this.state.ratingModal) {
-            this.setState({ratingModal: !this.state.ratingModal})
+            this.setState({ ratingModal: !this.state.ratingModal })
         }
     };
 
@@ -109,14 +109,14 @@ class Music extends Component {
         // console.log(item)
         this.setState({ activeRating: item, ratingModal: !this.state.ratingModal });
         if (this.state.songModal) {
-            this.setState({songModal: !this.state.songModal})
+            this.setState({ songModal: !this.state.songModal })
         }
     };
 
     renderSongs = () => {
         var songs = this.state.songsList
         // console.log(songs)
-        return songs.map((item,i) => (
+        return songs.map((item, i) => (
             <li
                 key={i}
                 className=""
@@ -129,61 +129,85 @@ class Music extends Component {
                 </span>
                 <span>
                     <button
-                        onClick={()=>this.editSong(item)}
+                        onClick={() => this.editSong(item)}
                     >
                         edit
                     </button>
                     <button
-                        onClick={()=>this.editRating(item)}
+                        onClick={() => this.editRating(item)}
                     >
                         rate
                     </button>
                     <button
-                        onClick={()=> this.handleDelete(item, 'songs')}
+                        onClick={() => this.handleDelete(item, 'songs')}
                     >
                         delete
                     </button>
-                    
+
                 </span>
 
             </li>
         ));
     };
-    
+
+    /* renderSearch = () => {
+        //var songs = this.state.songsList;
+        const [searchTerm, setSearchTerm] = useState("");
+        // console.log(songs)
+        return (
+            <div className="Search">
+                    <input
+                        type="text"
+                        placeholder="Search..."
+                        onChange={(event) => {
+                            setSearchTerm(event.target.value);
+                        }}
+                        />
+                    {this.state.songsList.map((item, i) => {
+                        return <div className="user" key={i}> <p>{item.song}</p></div>;
+                    })}
+                </div>
+        );
+    };
+
+*/
+
+
     render() {
-        return(
+        return (
             <main className="container">
                 <h1 className="header">songs</h1>
+
                 <div className="row">
                     <div className="column">
                         <div className="card">
                             {this.state.songModal ? (
                                 <SongModal
-                                    activeItem = {this.state.activeSong}
-                                    toggle = {this.toggleSongModal}
-                                    onSave = {this.handleSubmit}
+                                    activeItem={this.state.activeSong}
+                                    toggle={this.toggleSongModal}
+                                    onSave={this.handleSubmit}
                                 />
-                            ): null}
+                            ) : null}
                             {this.state.ratingModal ? (
                                 <RatingModal
-                                    activeItem = {this.state.activeRating}
-                                    toggle = {this.toggleRatingModal}
-                                    onSave = {this.handleSubmit}
+                                    activeItem={this.state.activeRating}
+                                    toggle={this.toggleRatingModal}
+                                    onSave={this.handleSubmit}
                                 />
-                            ): null}
+                            ) : null}
                             {this.state.errorFlag ? (
                                 <p>{this.state.errorMessage}</p>
-                            ): null}
+                            ) : null}
                             {this.renderSongs()}
                         </div>
                         <div className="">
-                                <button
-                                    className=""
-                                    onClick={this.createSong}
-                                >
-                                    add song
-                                </button>
-                            </div>
+                            <button
+                                className=""
+                                onClick={this.createSong}
+                            >
+                                add song
+                            </button>
+                        </div>
                     </div>
                 </div>
             </main>
