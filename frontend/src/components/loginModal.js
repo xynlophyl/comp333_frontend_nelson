@@ -27,10 +27,10 @@ export default class CustomModal extends Component {
   };
 
   render() {
-    const { onSave } = this.props;
+    const { toggle, onSave } = this.props;
     return (
-      <Modal isOpen={true} animation={false}>
-        <ModalHeader>Login</ModalHeader>
+      <Modal isOpen={true} toggle={toggle} animation={false}>
+        <ModalHeader toggle={toggle}>Login</ModalHeader>
         <ModalBody>
           <Form>
             <FormGroup>

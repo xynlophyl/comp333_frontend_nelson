@@ -16,6 +16,7 @@ class Login extends Component{
                 password: '',
                 passwordConfirm: '',
             },
+            loginModal: false,
         }
     };
 
@@ -29,13 +30,20 @@ class Login extends Component{
 
     }
 
+    toggleModal = () => {
+        this.setState({loginModal: !this.state.loginModal});
+    };
+
     render() {
         return(
             <main>
-                <LoginModal
-                    activeItem = {this.state.activeInfo}
-                    onSave = {this.handleSubmit}
-                />
+                <div className="card">
+                    <LoginModal
+                        activeItem = {this.state.activeInfo}
+                        toggle = {this.toggleModal}
+                        onSave = {this.handleSubmit}
+                    />
+                </div>
             </main>
         );
     }
