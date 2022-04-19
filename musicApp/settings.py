@@ -40,7 +40,13 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'musicapplication',
+    'knox',
+    'accounts',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication',)
+}
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',

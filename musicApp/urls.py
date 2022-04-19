@@ -26,4 +26,5 @@ router.register(r'ratings', views.ratingsView, 'rating')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('', include('accounts.urls'))
 ]

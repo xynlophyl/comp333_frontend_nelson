@@ -1,10 +1,7 @@
 from django.db import models
-from django.core.validators import MinValueValidator,MaxValueValidator
-from rest_framework.authtoken.models import Token
-from django.conf import settings
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+from django.core.validators import MinValueValidator,MaxValueValidator 
 
+from django.contrib.auth.models import User
 
 
 # Create your models here.
@@ -15,17 +12,14 @@ class user (models.Model):
     def __str__(self):
         return self.username
 
-    @receiver(post_save, sender=settings.AUTH_USER_MODEL)
-    def create_auth_token(sender, instance=None, created=False, **kwargs):
-        if created:
-            Token.objects.create(user=instance)
-
 class rating (models.Model):
     username = models.ForeignKey(user, on_delete=models.CASCADE)
     song_artist = models.CharField(max_length=255)
     song = models.CharField(max_length=255)
     artist = models.CharField(max_length=255)
     rating = models.PositiveBigIntegerField(validators= [MinValueValidator(0), MaxValueValidator(5)], default=5)
+    owner = models.ForeignKey(User, related_name="ratings", on_delete=models.CASCADE, null=True)
+
     def __str__(self):
        return f'{self.song} -> {self.rating}'
 

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 from rest_framework import status
 
@@ -37,8 +37,19 @@ class songsView(viewsets.ModelViewSet):
         
 
 class ratingsView(viewsets.ModelViewSet):
+    permissions_classes= [
+        permissions.IsAuthenticatedOrReadOnly
+    ]
     serializer_class = ratingsSerializer
-    queryset = rating.objects.all()
+
+    # queryset = rating.objects.all()
+
+
+    def get_queryset(self):
+        return self.request.user.leads.all()
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
     def post(self, request, format=None): 
         print(request.stream)
