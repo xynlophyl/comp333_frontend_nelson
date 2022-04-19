@@ -9,6 +9,7 @@ import {
   FormGroup,
   Input,
   Label,
+  
 } from "reactstrap";
 
 export default class CustomModal extends Component {
@@ -86,6 +87,16 @@ export default class CustomModal extends Component {
                 onChange={this.handleChange}
                 placeholder="Enter song genre"
               /> */}
+            </FormGroup>
+            <FormGroup check>
+              <Label check for="song-favorites">Send to Favorites List</Label>
+              <Input
+                type="checkbox"
+                id="song-favorites"
+                value={this.state.activeItem.favorites}
+                //onChange={this.handleChange}
+                
+              />
             </FormGroup>
           </Form>
         </ModalBody>

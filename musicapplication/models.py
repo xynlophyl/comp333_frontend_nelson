@@ -24,6 +24,7 @@ class song (models.Model) :
     song = models.CharField(max_length=255)#, primary_key=True)
     artist = models.CharField(max_length=255)
     genre =  models.CharField(max_length=60,choices=GENRE)
+    favorite = models.BooleanField(default=False)
 
     def __str__(self):
         return self.song_artist

@@ -75,3 +75,33 @@ li {
 .navbar {
   background-color: crimson;
 }
+
+.Search {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: crimson;
+}
+
+.Search input {
+  margin-top: 20px;
+  width: 300px;
+  height: 40px;
+  font-size: 20px;
+  padding-left: 10px;
+}
+
+p {
+  margin: 10px;
+  font-size: 18px;
+}
+
+.backgroundimage {
+  background-image: url(./assets/hand-1850120.jpg);
+  height: 1000px;
+}
+
+.backgroundimage h1 {
+  color: white;
+}
