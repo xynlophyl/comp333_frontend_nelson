@@ -35,13 +35,12 @@ class ratingsView(viewsets.ModelViewSet):
 
 
     def get_queryset(self):
-        return self.request.user.rating.all()
+        return self.request.user.ratings.all()
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
     def post(self, request, format=None): 
-        print(request.stream)
         serializer = ratingsSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
