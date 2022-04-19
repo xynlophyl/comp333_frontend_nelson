@@ -4,23 +4,12 @@ from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 from rest_framework import status
 
-from .serializers import usersSerializer, ratingsSerializer, songsSerializer
-from .models import user, rating, song
+from .serializers import ratingsSerializer, songsSerializer
+from .models import rating, song
 
 
 
 # Create your views here.
-class usersView(viewsets.ModelViewSet):
-    #create: create, read: , update: put, delete: delete 
-    serializer_class = usersSerializer
-    queryset = user.objects.all()
-
-    def post(self, request, format=None):
-        serializer = usersSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data,status = status.HTTP_201_CREATED)
-
 
 class songsView(viewsets.ModelViewSet):
     serializer_class = songsSerializer

@@ -5,15 +5,7 @@ from django.contrib.auth.models import User
 
 
 # Create your models here.
-
-class user (models.Model):
-    username = models.CharField(max_length=255, primary_key=True)
-    password = models.CharField(max_length=255)
-    def __str__(self):
-        return self.username
-
 class rating (models.Model):
-    username = models.ForeignKey(user, on_delete=models.CASCADE)
     song_artist = models.CharField(max_length=255)
     song = models.CharField(max_length=255)
     artist = models.CharField(max_length=255)

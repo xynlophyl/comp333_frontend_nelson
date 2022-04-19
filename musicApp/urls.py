@@ -19,7 +19,6 @@ from rest_framework import routers
 from musicapplication import views
 
 router = routers.DefaultRouter()
-router.register(r'users', views.usersView, 'user')
 router.register(r'songs', views.songsView, 'song')
 router.register(r'ratings', views.ratingsView, 'rating')
 

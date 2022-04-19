@@ -5,6 +5,7 @@ import Login from './Login.js';
 import Music from './Music.js';
 import Signup from './Signup.js';
 import NewLogin from './newLogin.js';
+import NewSignup from './newSignUp.js';
 import NavigationBar from './components/Navbar';
 
 export default function App() {
@@ -16,6 +17,7 @@ export default function App() {
             <Route exact path="/login" element={<Login />}></Route>
             <Route exact path="/createaccount" element={<Signup />}></Route>
             <Route exact path="/newLogin" element={<NewLogin />}></Route>
+            <Route exact path="/newSignup" element={<NewSignup />}></Route>
          </Routes>
          </BrowserRouter>
 
