@@ -1,3 +1,4 @@
+// STARTED FROM HERE
 import React, { Component} from "react";
 import SongModal from "./components/songModal";
 import RatingModal from "./components/ratingModal";
@@ -17,7 +18,7 @@ class Music extends Component {
             },
             activeRating: {
                 id: null,
-                username: '',
+                username: 'test_user',
                 song: '',
                 rating: '',
             },
@@ -37,9 +38,9 @@ class Music extends Component {
             .get("http://localhost:8000/api/songs/")
             .then((res) => this.setState({songsList: res.data}))
             .catch((err) => console.log(err))
-
+        console.log('getting ratings')
         axios
-            .get("http://localhost:8000/api/ratings/")
+            .get("http://localhost:8000/api/ratings/test_user/")
             .then((res) => this.setState({ratingsList: res.data}))
             .catch((err) => console.log(err))
         console.log('ratings', this.state.ratingsList)
@@ -128,25 +129,23 @@ class Music extends Component {
                 </span>
                 <span>
                     <button
-                        className=""
                         onClick={()=>this.editSong(item)}
                     >
                         edit
                     </button>
                     <button
-                        className=""
                         onClick={()=>this.editRating(item)}
                     >
                         rate
                     </button>
                     <button
-                        className=""
                         onClick={()=> this.handleDelete(item, 'songs')}
                     >
                         delete
                     </button>
                     
                 </span>
+
             </li>
         ));
     };

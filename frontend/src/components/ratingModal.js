@@ -17,6 +17,7 @@ export default class CustomModal extends Component {
     super(props);
     this.state = {
       activeItem: this.props.activeItem,
+      rating: this.props.activeItem.rating,
     };
   }
 
@@ -34,7 +35,7 @@ export default class CustomModal extends Component {
       <Modal isOpen={true} toggle={toggle} animation={false}>
         <ModalHeader toggle = {toggle}> new rating</ModalHeader>
         <ModalBody>
-        RATING {this.state.activeItem.rating}
+        CURRENT RATING {this.state.rating}
         <Form>
           <FormGroup>
             <Label for="song-rating">rating</Label>

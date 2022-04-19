@@ -21,7 +21,7 @@ export default class CustomModal extends Component {
 
   handleChange = (e) => {
     let { name, value } = e.target;
-    const activeItem = { ...this.state.activeSong, [name]: value };
+    const activeItem = { ...this.state.activeItem, [name]: value };
   
     this.setState({ activeItem });
   };
@@ -69,6 +69,14 @@ export default class CustomModal extends Component {
                 <option value="Rock">Rock</option>
                 <option value="Classic">Classic</option>
                 <option value="Country">Country</option>
+                <option value="Indie">Indie</option>
+                <option value="EDM">EDM</option>
+                <option value="Jazz">Jazz</option>
+                <option value="RnB">R&B</option>
+                <option value="Other">Other</option>
+
+
+
               </select>
               {/* <Input
                 type="text"

@@ -18,7 +18,7 @@ class rating (models.Model):
 
 class song (models.Model) :
     #fields: song_artist, song, artist, genre
-    GENRE = (('Pop','Pop'), ('Hip-Hop','Hip-Hop'), ('Classic','Classic'), ('Rock','Rock'), ('Country','Country'))
+    GENRE = (('Pop','Pop'), ('Hip-Hop','Hip-Hop'), ('Classic','Classic'), ('Rock','Rock'), ('Country','Country'), ('Indie','Indie'),('EDM','EDM'), ('Jazz','Jazz'),('RnB','RnB'), ('Other','Other'))
     id = models.AutoField(primary_key=True)
     song_artist = models.CharField(max_length=255, unique= True)
     song = models.CharField(max_length=255)#, primary_key=True)

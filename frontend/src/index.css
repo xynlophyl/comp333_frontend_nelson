@@ -35,6 +35,11 @@ button:hover {
   background-color: white;
 }
 
+li {
+  display: flex;
+  justify-content: space-between;
+}
+
 .displaytitle {
   color: black;
   text-align: center;
