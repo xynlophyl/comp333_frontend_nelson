@@ -45,7 +45,7 @@ export default class CustomModal extends Component {
               />
             </FormGroup>
             <FormGroup>
-              <Label for="password">Password</Label>
+              <Label for="password">Title</Label>
               <Input
                 type="password"
                 id="password"
