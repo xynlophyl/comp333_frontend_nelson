@@ -2,6 +2,7 @@
 import React, { Component} from "react";
 import SongModal from "./components/songModal";
 import RatingModal from "./components/ratingModal";
+import StatsModal from "./components/statsModal";
 
 import axios from "axios";
 
@@ -11,20 +12,31 @@ class Music extends Component {
         this.state = {
             songsList:[],
             ratingsList:[],
+            ratedSongs: [],
+            userSongs: [],
             activeSong:{
                 id: null,
                 song: '',
                 artist: '',
             },
             activeRating: {
-                id: null,
-                username: 'test_user',
+                song_artist: '',
                 song: '',
+                artist: '',
                 rating: '',
             },
             songModal: false,
             ratingModal: false,
+            statsModal: false,
+
             errorFlag: false,
+            errorMsg: null,
+            config: {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Token 6a19c2c42d0a044cb1f7b58f6625fe10f802507c01b17d6d46f831cf4c72023d"
+                }
+            },
         }
     };
 
@@ -32,19 +44,39 @@ class Music extends Component {
         this.refreshList();
     };
 
+    trackUserRatedSongs = () => {
+        this.state.songsList.forEach((song) => {
+            if (this.state.ratedSongs.includes(song.song_artist)  && !this.state.userSongs.includes(song)){
+                this.state.userSongs.push(song)
+            }   
+        })
+    }
+
+    mapSongsToRating = () => {
+        this.state.ratingsList.forEach((rating) => {
+            // console.log(rating.id)
+            if (!this.state.ratedSongs.includes(rating.song_artist)){
+                this.state.ratedSongs.push(rating.song_artist)
+            }
+        })
+    }
+
     refreshList = () => {
         this.setState({errorMessage: null})
         axios
             .get("http://localhost:8000/api/songs/")
             .then((res) => this.setState({songsList: res.data}))
             .catch((err) => console.log(err))
-        console.log('getting ratings')
+        // console.log('getting ratings')
         axios
-            .get("http://localhost:8000/api/ratings/test_user/")
+            .get("http://localhost:8000/api/ratings/", this.state.config)
             .then((res) => this.setState({ratingsList: res.data}))
             .catch((err) => console.log(err))
-        console.log('ratings', this.state.ratingsList)
-        // console.log(this.state.songsList)
+        // console.log('ratings', this.state.ratingsList)
+        // console.log('songs', this.state.songsList)
+        this.mapSongsToRating()
+        this.trackUserRatedSongs()
+        console.log('user', this.state.userSongs)
     };
     
     toggleSongModal = () => {
@@ -55,28 +87,45 @@ class Music extends Component {
         this.setState({ratingModal: !this.state.ratingModal});
     };
 
+    toggleStatsModal = () => {
+        this.setState({statsModal: !this.state.statsModal});
+    };
+
     handleSubmit = (item, type) => {
+        this.refreshList()
         if (type == 'songs') {
             this.toggleSongModal();
             item.song_artist = item.song + '_'+item.artist
-
+            if (!item.id) {
+                axios
+                    .post(`http://localhost:8000/api/${type}/`, item)
+                    .then((res) => this.refreshList())
+                    .catch((e) => this.setState({errorFlag:true, errorMessage: 'this song and artist combination already exists'}))
+                return;
+            }
+            // update method
+            axios 
+                .put(`http://localhost:8000/api/${type}/${item.id}/`, item)
+                .then((res) => this.refreshList());
+            return;
         } else {
             this.toggleRatingModal();
-            item.username = "test_user"
-        }
-        console.log(item)
-        // create method 
-        if (!item.id) {
+            if (this.state.ratedSongs.includes(item.song_artist)){
+                // console.log('already rated')
+                this.setState({errorFlag: true, errorMessage: 'user has already rated this song, please rate another song.'})
+                return;
+            }
             axios
-                .post(`http://localhost:8000/api/${type}/`, item)
-                .then((res) => this.refreshList())
-                .catch((e) => this.setState({errorFlag:true, errorMessage: 'this song and artist combination already exists'}))
+            .post(`http://127.0.0.1:8000/api/ratings/`, item, this.state.config)
+            .then((res) => this.refreshList())
+            .catch((e) => console.log(e))
             return;
+
+
+            // update method
+            
         }
-        // update method
-        axios 
-            .put(`http://localhost:8000/api/${type}/${item.id}/`, item)
-            .then((res) => this.refreshList());
+        // create method 
 
     }
 
@@ -100,6 +149,8 @@ class Music extends Component {
     editSong = (item) => {
         // console.log(item)
         this.setState({ activeSong: item, songModal: !this.state.songModal });
+        console.log(this.state.activeSong)
+
         if (this.state.ratingModal) {
             this.setState({ratingModal: !this.state.ratingModal})
         }
@@ -111,10 +162,16 @@ class Music extends Component {
         if (this.state.songModal) {
             this.setState({songModal: !this.state.songModal})
         }
+
+        console.log('active rating', this.state.activeRating)
+
     };
 
-    renderSongs = () => {
-        var songs = this.state.songsList
+    checkStats = () => {
+        this.setState({statsModal: !this.state.statsModal})
+    }
+
+    renderSongs = (songs) => {
         // console.log(songs)
         return songs.map((item,i) => (
             <li
@@ -149,6 +206,11 @@ class Music extends Component {
             </li>
         ));
     };
+
+    // renderUsers = (users) => {
+    //     axios
+    //         .get(`http://localhost:8000/api//${item.id}/`, ))
+    // }
     
     render() {
         return(
@@ -157,6 +219,8 @@ class Music extends Component {
                 <div className="row">
                     <div className="column">
                         <div className="card">
+                            <span>
+                            </span>
                             {this.state.songModal ? (
                                 <SongModal
                                     activeItem = {this.state.activeSong}
@@ -171,10 +235,17 @@ class Music extends Component {
                                     onSave = {this.handleSubmit}
                                 />
                             ): null}
+                            {this.state.statsModal ? (
+                                <StatsModal
+                                    activeItem = {this.state}
+                                    toggle = {this.toggleStatsModal}
+                                    onSave = {this.handleSubmit}
+                                />
+                            ): null}
                             {this.state.errorFlag ? (
                                 <p>{this.state.errorMessage}</p>
                             ): null}
-                            {this.renderSongs()}
+                            {this.renderSongs(this.state.songsList)}
                         </div>
                         <div className="">
                                 <button
@@ -182,6 +253,11 @@ class Music extends Component {
                                     onClick={this.createSong}
                                 >
                                     add song
+                                </button>
+                                <button
+                                    onClick={this.checkStats}
+                                >
+                                    song stats
                                 </button>
                             </div>
                     </div>

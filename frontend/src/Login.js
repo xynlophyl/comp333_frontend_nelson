@@ -16,34 +16,26 @@ class Login extends Component{
                 password: '',
                 passwordConfirm: '',
             },
-            loginModal: false,
         }
     };
 
     handleSubmit = (item) => {
         // create method 
         axios
-            .post(`http://localhost:8000/api/'users'/`, item)
+            .post(`http://localhost:8000/api/users/`, item)
             .then((res) => this.refreshList())
             .catch((e) => this.setState({errorFlag:true, errorMessage: 'user does not exist'}))
         return;
 
     }
 
-    toggleModal = () => {
-        this.setState({loginModal: !this.state.loginModal});
-    };
-
     render() {
         return(
             <main>
-                <div className="card">
-                    <LoginModal
-                        activeItem = {this.state.activeInfo}
-                        toggle = {this.toggleModal}
-                        onSave = {this.handleSubmit}
-                    />
-                </div>
+                <LoginModal
+                    activeItem = {this.state.activeInfo}
+                    onSave = {this.handleSubmit}
+                />
             </main>
         );
     }

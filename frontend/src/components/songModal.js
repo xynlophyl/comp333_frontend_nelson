@@ -29,7 +29,7 @@ export default class CustomModal extends Component {
   render() {
     const { toggle, onSave } = this.props;
     return (
-      <Modal isOpen={true} toggle={toggle} animation={false}>
+      <Modal isOpen={true} toggle={toggle} animation={'false'}>
         <ModalHeader toggle={toggle}>New Song</ModalHeader>
         <ModalBody>
           <Form>

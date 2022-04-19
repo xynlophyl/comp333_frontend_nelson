@@ -23,7 +23,7 @@ export default class CustomModal extends Component {
 
   handleChange = (e) => {
     let {name, value} = e.target;
-    const activeItem = {...this.state.activeRating, [name]: value};
+    const activeItem = {...this.state.activeItem, [name]: value};
 
     this.setState({ activeItem });
   };
@@ -32,10 +32,9 @@ export default class CustomModal extends Component {
     const {toggle, onSave} = this.props;
 
     return (
-      <Modal isOpen={true} toggle={toggle} animation={false}>
+      <Modal isOpen={true} toggle={toggle} animation={'false'}>
         <ModalHeader toggle = {toggle}> new rating</ModalHeader>
         <ModalBody>
-        CURRENT RATING {this.state.rating}
         <Form>
           <FormGroup>
             <Label for="song-rating">rating</Label>
