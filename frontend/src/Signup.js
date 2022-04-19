@@ -1,5 +1,5 @@
 import React, { Component} from "react";
-import LoginModal from "./components/loginModal";
+import SignUpModal from "./components/signupModal";
 
 import axios from "axios";
 
@@ -14,6 +14,9 @@ class Login extends Component{
                 id: null,
                 username: '',
                 password: '',
+                passwordConfirm: '',
+                firstName: '',
+                lastName: '',
             },
         }
     };
@@ -34,8 +37,8 @@ class Login extends Component{
     render() {
         return(
             <main>
-                <LoginModal
-                    activeItem = {this.state.activeSong}
+                <SignUpModal
+                    activeItem = {this.state.activeInfo}
                     onSave = {this.handleSubmit}
                 />
             </main>

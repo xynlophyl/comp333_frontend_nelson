@@ -42,15 +42,5 @@ class song (models.Model) :
     def __str__(self):
         return self.song_artist
     
-    def get_rating_average(r):
-        if r:
-            return sum(r)//len(r)
-        return 0
 
-    def get_avg_rating(self,r):
-        if r:
-            self.rating_average = sum(r)//len(r)
-        else:
-            self.rating_average =  0
-    rating_average = get_rating_average(rating.objects.filter(song_artist=song_artist).values_list('rating', flat=True))
     

@@ -22,7 +22,7 @@ export default class CustomModal extends Component {
 
   handleChange = (e) => {
     let {name, value} = e.target;
-    const activeItem = {...this.state.activeItem, [name]: value};
+    const activeItem = {...this.state.activeRating, [name]: value};
 
     this.setState({ activeItem });
   };
