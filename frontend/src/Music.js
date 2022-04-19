@@ -116,10 +116,10 @@ class Music extends Component {
                 className=""
             >
                 <span
-                    className=""
+                    className="musicInfo"
                     title={item.song}
                 >
-                    {item.song} {item.artist} {item.genre} {item.rating_average}
+                    {item.song} | {item.artist} | {item.genre} | {item.rating_average}
                 </span>
                 <span>
                     <button
@@ -148,18 +148,12 @@ class Music extends Component {
     render() {
         return(
             <main className="container">
-                <h1>song app</h1>
+                <h1 className="displaytitle">songs</h1>
+
                 <div className="row">
                     <div className="column">
                         <div className="card">
-                            <div className="">
-                                <button
-                                    className=""
-                                    onClick={this.createSong}
-                                >
-                                    add song
-                                </button>
-                            </div>
+                        
                             {this.state.songModal ? (
                                 <SongModal
                                     activeItem = {this.state.activeSong}
@@ -179,6 +173,14 @@ class Music extends Component {
                             ): null}
                             {this.renderSongs()}
                         </div>
+                        <div className="">
+                                <button
+                                    className=""
+                                    onClick={this.createSong}
+                                >
+                                    add song
+                                </button>
+                            </div>
                     </div>
                 </div>
             </main>

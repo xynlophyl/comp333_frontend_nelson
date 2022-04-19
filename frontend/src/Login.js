@@ -23,9 +23,9 @@ class Login extends Component{
         item.song_artist = item.song + '_'+item.artist
         // create method 
         axios
-            .get(`http://localhost:8000/api/'users'/`, item)
+            .get(`http://localhost:8000/api/users/`, item)
             .then((res) => this.refreshList())
-            .catch((e) => this.setState({errorFlag:true, errorMessage: 'user does not exist'}))
+            .catch((e) => this.setState({errorFlag:true, errorMessage: 'User Does Not Exist'}))
         return;
 
     }

@@ -34,7 +34,7 @@ export default class CustomModal extends Component {
         <ModalBody>
           <Form>
             <FormGroup>
-              <Label for="username">Title</Label>
+              <Label for="username">Username:</Label>
               <Input
                 type="text"
                 id="username"
@@ -45,7 +45,7 @@ export default class CustomModal extends Component {
               />
             </FormGroup>
             <FormGroup>
-              <Label for="password">Title</Label>
+              <Label for="password">Password:</Label>
               <Input
                 type="password"
                 id="password"
@@ -62,7 +62,7 @@ export default class CustomModal extends Component {
             color="success"
             onClick={() => onSave(this.state.activeItem,'songs')}
           >
-            Save
+            Login
           </Button>
         </ModalFooter>
       </Modal>
