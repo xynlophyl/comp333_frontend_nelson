@@ -57,11 +57,13 @@ class Music extends Component {
     handleSubmit = (item, type) => {
         if (type == 'songs') {
             this.toggleSongModal();
+            item.song_artist = item.song + '_'+item.artist
+
         } else {
             this.toggleRatingModal();
             item.username = "test_user"
         }
-        item.song_artist = item.song + '_'+item.artist
+        console.log(item)
         // create method 
         if (!item.id) {
             axios
@@ -97,6 +99,9 @@ class Music extends Component {
     editSong = (item) => {
         // console.log(item)
         this.setState({ activeSong: item, songModal: !this.state.songModal });
+        if (this.state.ratingModal) {
+            this.setState({ratingModal: !this.state.ratingModal})
+        }
     };
 
     editRating = (item) => {

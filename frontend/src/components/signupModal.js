@@ -33,6 +33,28 @@ export default class CustomModal extends Component {
         <ModalHeader>Login</ModalHeader>
         <ModalBody>
           <Form>
+          <FormGroup>
+              <Label for="firstName">First Name</Label>
+              <Input
+                type="text"
+                id="firstName"
+                name="firstName"
+                value={this.state.activeItem.firstName}
+                onChange={this.handleChange}
+                placeholder=""
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="lastName">Last Name</Label>
+              <Input
+                type="text"
+                id="lastName"
+                name="lastName"
+                value={this.state.activeItem.lastName}
+                onChange={this.handleChange}
+                placeholder=""
+              />
+            </FormGroup>
             <FormGroup>
               <Label for="username">Username</Label>
               <Input
@@ -41,7 +63,7 @@ export default class CustomModal extends Component {
                 name="username"
                 value={this.state.activeItem.username}
                 onChange={this.handleChange}
-                placeholder="Username"
+                placeholder=""
               />
             </FormGroup>
             <FormGroup>
@@ -52,7 +74,18 @@ export default class CustomModal extends Component {
                 name="password"
                 value={this.state.activeItem.password}
                 onChange={this.handleChange}
-                placeholder="Password"
+                placeholder=""
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="passwordConfirm">Confirm Password</Label>
+              <Input
+                type="password"
+                id="passwordConfirm"
+                name="passwordConfirm"
+                value={this.state.activeItem.passwordConfirm}
+                onChange={this.handleChange}
+                placeholder=""
               />
             </FormGroup>
           </Form>

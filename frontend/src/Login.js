@@ -14,22 +14,20 @@ class Login extends Component{
                 id: null,
                 username: '',
                 password: '',
+                passwordConfirm: '',
             },
         }
     };
 
     handleSubmit = (item) => {
-
-        item.song_artist = item.song + '_'+item.artist
         // create method 
         axios
-            .get(`http://localhost:8000/api/'users'/`, item)
+            .post(`http://localhost:8000/api/'users'/`, item)
             .then((res) => this.refreshList())
             .catch((e) => this.setState({errorFlag:true, errorMessage: 'user does not exist'}))
         return;
 
     }
-
 
     render() {
         return(
